@@ -29,6 +29,6 @@ class Animal{
 
     // Methode Destroy untuk menghapus data hewan
     public function destroy($index){
-        array_splice($this->namaHewan, $index,1);
+        array_splice($this->namaHewan, $index, 1);
     }
 }
