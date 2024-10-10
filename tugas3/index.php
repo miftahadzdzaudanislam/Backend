@@ -1,7 +1,7 @@
 <?php
 require 'animal.php';
 
-$listHewan = new Animal(['Ayam', 'Kucing', 'Anjing']);
+$listHewan = new Animal(['Ayam', 'Kucing', 'Pinguin']);
 
 echo 'Methode Index untuk menampilkan data hewan<br>';
 $listHewan->index();
@@ -13,7 +13,7 @@ $listHewan->index();
 echo '<br>';
 
 echo 'Methode Update untuk mengubah data hewan<br>';
-$listHewan->update(0, 'Babi');
+$listHewan->update(0, 'Jerapah');
 $listHewan->index();
 echo '<br>';
 
