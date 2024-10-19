@@ -12,3 +12,7 @@ Route::get('/user', function (Request $request) {
 Route::get('/animals', [AnimalController::class, 'index']);
 // Route api untuk menambah data animals
 Route::post('/animals', [AnimalController::class, 'store']);
+// Route api untuk mengupdate data animals
+Route::put('/animals/{id}', [AnimalController::class, 'update']);
+// Route untuk menghapus data animals
+Route::delete('/animals/{id}', [AnimalController::class, 'destroy']);
