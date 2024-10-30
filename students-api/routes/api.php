@@ -16,3 +16,5 @@ Route::post('/students', [StudentController::class, 'store']);
 Route::put('/students/{id}', [StudentController::class, 'update']);
 // Route untuk menghapus data student
 Route::delete('/students/{id}', [StudentController::class, 'destroy']);
+// Route untuk melihat data student
+Route::get('/students/{id}', [StudentController::class, 'show']);

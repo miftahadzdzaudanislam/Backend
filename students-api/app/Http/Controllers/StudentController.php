@@ -43,32 +43,67 @@ class StudentController extends Controller
     public function update($id, Request $request) {
         $students = Student::find($id);
 
-        $students->update([
-            // pemanggilan kolom database dengan eloquent
-            'nama' => $request->nama,
-            'nim' => $request->nim,
-            'email' => $request->email,
-            'jurusan' => $request->jurusan
-        ]);
+        if ($students) {
+            $students->update([
+                // pemanggilan kolom database dengan eloquent
+                'nama' => $request->nama ?? $students->nama,
+                'nim' => $request->nim ?? $students->nim,
+                'email' => $request->email ?? $students->email,
+                'jurusan' => $request->jurusan ?? $students->jurusan
+            ]);
 
-        $data = [
-            'message' => 'Berhasil mengubah data',
-            'data' => $students
-        ];
+            $data = [
+                'message' => 'Berhasil mengubah data',
+                'data' => $students
+            ];
 
-        return response()->json($data, 200);
+            return response()->json($data, 200);
+        } else {
+            $data = [
+                'message' => 'Data tidak ditemukan'
+            ];
+
+            return response()->json($data, 404);
+        }
     }
 
     public function destroy($id) {
         $students = Student::find($id);
 
-        $students->delete();
+        if ($students) {
+            $students->delete();
+    
+            $data = [
+                'message' => 'Berhasil menghapus data',
+                'data' => $students
+            ];
 
-        $data = [
-            'message' => 'Berhasil menghapus data',
-            'data' => $students
-        ];
+            return response()->json($data, 200);
+        } else {
+            $data = [
+                'message' => 'Data tidak ditemukan',
+            ];
 
-        return response()->json($data, 201);
+            return response()->json($data, 404);
+        }
+    }
+
+    public function show($id) {
+        $students = Student::find($id);
+
+        if ($students) {
+            $data = [
+                'message' => 'Menampilkan detail data',
+                'data' => $students
+            ];
+
+            return response()->json($data, 200);
+        } else {
+            $data = [
+                'message' => 'Data tidak ditemukan',
+            ];
+
+            return response()->json($data, 404);
+        }
     }
 }
