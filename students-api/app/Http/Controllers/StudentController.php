@@ -12,31 +12,48 @@ class StudentController extends Controller
     public function index() {
         // student = DB::table('students')->get(); // untuk query builder
         $students = Student::all(); // menggunakan eloquent
-        $data = [
-            'message' => 'Berhasil akses data',
-            'data' => $students
-        ];
-        return response()->json($data, 200);
+
+        if ($students->isNotEmpty()) {
+            $data = [
+                'message' => 'Berhasil akses data',
+                'data' => $students
+            ];
+            return response()->json($data, 200);
+        } else {
+            $data = [
+                'message' => 'Data Student tidak ada'
+            ];
+            return response()->json($data, 200);
+        }
+
     }
 
     // Metode store untuk menambahkan data
-    public function store(Request $request) {
-        $input = [
-            // pemanggilan kolom database dengan eloquent
-            'nama' => $request->nama,
-            'nim' => $request->nim,
-            'email' => $request->email,
-            'jurusan' => $request->jurusan
-        ];
-        
-        $students = Student::create($input);
+    public function store(Request $request) {        
+        if ($request->filled('nama', 'nim', 'email', 'jurusan')) {
+            $input = [
+                // pemanggilan kolom database dengan eloquent
+                'nama' => $request->nama,
+                'nim' => $request->nim,
+                'email' => $request->email,
+                'jurusan' => $request->jurusan
+            ];
+    
+            $students = Student::create($input);
 
-        $data = [
-            'message' => 'Berhasil menambahkan data',
-            'data' => $students
-        ];
+            $data = [
+                'message' => 'Berhasil menambahkan data',
+                'data' => $students
+            ];
 
-        return response()->json($data, 201);
+            return response()->json($data, 201);
+        } else {
+            $data = [
+                'message' => 'Data gagal ditambahkan'
+            ];
+    
+            return response()->json($data, 404);
+        }
     }
 
     // Metode untuk mengubah data
