@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Symfony\Component\Console\Input\Input;
 
 class StudentController extends Controller
@@ -13,33 +14,36 @@ class StudentController extends Controller
         // student = DB::table('students')->get(); // untuk query builder
         $students = Student::all(); // menggunakan eloquent
 
-        if ($students->isNotEmpty()) {
+        if ($students) {
             $data = [
                 'message' => 'Berhasil akses data',
                 'data' => $students
             ];
-            return response()->json($data, 200);
         } else {
             $data = [
                 'message' => 'Data Student tidak ada'
             ];
-            return response()->json($data, 200);
         }
-
+        return response()->json($data, 200);
     }
 
     // Metode store untuk menambahkan data
     public function store(Request $request) {        
-        if ($request->filled('nama', 'nim', 'email', 'jurusan')) {
-            $input = [
-                // pemanggilan kolom database dengan eloquent
-                'nama' => $request->nama,
-                'nim' => $request->nim,
-                'email' => $request->email,
-                'jurusan' => $request->jurusan
-            ];
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required',
+            'nim' => 'numeric|required',
+            'email' => 'email|required',
+            'jurusan' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validasi errors',
+                'errors' => $validator->errors()
+            ], 422);
+        }
     
-            $students = Student::create($input);
+            $students = Student::create($request->all());
 
             $data = [
                 'message' => 'Berhasil menambahkan data',
@@ -47,13 +51,6 @@ class StudentController extends Controller
             ];
 
             return response()->json($data, 201);
-        } else {
-            $data = [
-                'message' => 'Data gagal ditambahkan'
-            ];
-    
-            return response()->json($data, 404);
-        }
     }
 
     // Metode untuk mengubah data
