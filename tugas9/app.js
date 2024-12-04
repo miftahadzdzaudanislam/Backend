@@ -1,4 +1,4 @@
-var {index, store, update, destroy} = require("./Controller/FruitController");
+const {index, store, update, destroy} = require("./Controller/FruitController");
 
 const main = () => {
     console.log("Metod index - Menampilkan Buah")

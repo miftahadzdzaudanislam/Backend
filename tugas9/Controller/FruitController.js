@@ -1,4 +1,4 @@
-var fruits = require("../data/fruits.js");
+const fruits = require("../data/fruits.js");
 
 const index = () => {
     for (var fruit of fruits) {

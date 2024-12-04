@@ -1,3 +1,3 @@
-var fruits = ["Jeruk", "Apel", "Durian"];
+const fruits = ["Jeruk", "Apel", "Durian"];
 
 module.exports = fruits;
